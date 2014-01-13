@@ -2052,6 +2052,23 @@
             </intent-filter>
         </receiver>
 
+        <receiver
+            android:name="com.android.settings.temasek.batterysaver.BootReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
+        </receiver>
+
+        <receiver
+            android:name="com.android.settings.temasek.batterysaver.BatterySaverReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.TIMEZONE_CHANGED"></action>
+                <action android:name="android.intent.action.TIME_CHANGED"></action>
+                <action android:name="android.intent.action.DATE_CHANGED"></action>
+                <action android:name="com.android.settings.temasek.batterysaver.SCHEDULE_BATTERY_SAVER"/>
+            </intent-filter>
+        </receiver>
+
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="com.android.settings.files"
