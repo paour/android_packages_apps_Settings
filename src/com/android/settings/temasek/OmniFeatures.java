@@ -44,6 +44,8 @@ import android.provider.Settings;
 import android.provider.Settings.SettingNotFoundException;
 import android.util.Log;
 
+import com.android.settings.temasek.batterysaver.BatterySaverHelper;
+
 import java.util.List;
 
 import com.android.settings.SettingsPreferenceFragment;
@@ -61,6 +63,7 @@ public class OmniFeatures extends SettingsPreferenceFragment implements
     private static final String SMS_BREATH = "sms_breath";
     private static final String MISSED_CALL_BREATH = "missed_call_breath";
     private static final String VOICEMAIL_BREATH = "voicemail_breath";
+    private static final String BATTERY_SAVER = "interface_battery_saver";
 
     private CheckBoxPreference mStatusBarCustomHeader;
     private CheckBoxPreference mRecentClearAll;
@@ -69,11 +72,14 @@ public class OmniFeatures extends SettingsPreferenceFragment implements
     private CheckBoxPreference mSMSBreath;
     private CheckBoxPreference mMissedCallBreath;
     private CheckBoxPreference mVoicemailBreath;
+    private PreferenceScreen mBatterySaver;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.omni_features);
+
+        Context context = getActivity();
 
         PreferenceScreen prefSet = getPreferenceScreen();
         ContentResolver resolver = getActivity().getContentResolver();
@@ -113,6 +119,11 @@ public class OmniFeatures extends SettingsPreferenceFragment implements
         mVoicemailBreath.setChecked(Settings.System.getInt(resolver,
                 Settings.System.KEY_VOICEMAIL_BREATH, 0) == 1);
         mVoicemailBreath.setOnPreferenceChangeListener(this);
+
+        mBatterySaver = (PreferenceScreen) prefSet.findPreference(BATTERY_SAVER);
+        if (!BatterySaverHelper.deviceSupportsMobileData(context)) {
+            prefSet.removePreference(mBatterySaver);
+        }
     }
 
     @Override
@@ -120,6 +131,7 @@ public class OmniFeatures extends SettingsPreferenceFragment implements
         return true;
     }
 
+    @Override
     public boolean onPreferenceChange(Preference preference, Object objValue) {
         ContentResolver resolver = getActivity().getContentResolver();
         if (preference == mStatusBarCustomHeader) {

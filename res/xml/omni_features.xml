@@ -20,6 +20,11 @@
         android:key="sound_settings"
         xmlns:settings="http://schemas.android.com/apk/res/com.android.settings">
 
+    <PreferenceScreen
+        android:key="interface_battery_saver_key"
+        android:fragment="com.android.settings.temasek.batterysaver.BatterySaverSettings"
+        android:title="@string/battery_saver_title" />
+
     <!-- Status bar -->
     <PreferenceCategory
             android:key="category_status_bar"
